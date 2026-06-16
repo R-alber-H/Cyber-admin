@@ -1,20 +1,24 @@
 import Table from "../components/Table";
+import { useState } from 'react';
+import FormularioUsuario from '../components/Formulario_Usuario';
+import Modal from '../components/Modal';
 
 export default function Usuarios() {
+  const [modalAbierto, setModalAbierto] = useState(false);
   const columnasUsuarios = [
-    { 
-      header: "ID", 
-      accessor: "id", 
+    {
+      header: "ID",
+      accessor: "id",
       className: "w-16",
-      render: (value) => <span className="font-mono text-gray-400">{value}</span> 
+      render: (value) => <span className="font-mono text-gray-400">{value}</span>
     },
-    { 
-      header: "Nombre", 
+    {
+      header: "Nombre",
       accessor: "nombre",
       render: (value) => <span className="font-medium text-gray-900">{value}</span>
     },
-    { 
-      header: "Correo", 
+    {
+      header: "Correo",
       accessor: "correo",
       render: (value) => <span className="text-gray-500">{value}</span>
     },
@@ -27,11 +31,26 @@ export default function Usuarios() {
   ];
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Usuarios</h1>
+      <div className="flex flex-row justify-between mb-5">
+        <h3 className="text-3xl font-bold ">Usuarios</h3>
+        <button
+          onClick={() => setModalAbierto(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Nuevo Usuario
+        </button>
+      </div>
 
       <div className="bg-white rounded-xl shadow overflow-hidden">
         <Table columns={columnasUsuarios} data={listaUsuarios} />
       </div>
+      <Modal
+        isOpen={modalAbierto}
+        onClose={() => setModalAbierto(false)}
+        title="Registrar Usuario"
+      >
+        <FormularioUsuario />
+      </Modal>
     </div>
   );
 }

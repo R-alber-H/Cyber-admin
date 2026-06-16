@@ -59,7 +59,7 @@ export default function Sidebar() {
             </li>
             <li>
               <NavLink
-                to="/configuracion"
+                to="/productos"
                 className={({ isActive }) =>
                   `${baseLinkClass} ${isActive
                     ? "bg-linear-to-r from-orange-500/10 to-transparent text-orange-500 font-bold"
@@ -70,7 +70,7 @@ export default function Sidebar() {
                 {({ isActive }) => (
                   <>
                     <FaCog className={`text-lg transition-transform group-hover:scale-110 ${isActive ? "text-orange-500" : "text-zinc-500 group-hover:text-white"}`} />
-                    <span>Configuración</span>
+                    <span>Productos</span>
                     {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-500 shadow-glow" />}
                   </>
                 )}
