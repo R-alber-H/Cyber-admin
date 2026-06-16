@@ -31,7 +31,7 @@ export default function Usuarios() {
   ];
   return (
     <div>
-      <div className="flex flex-row justify-between mb-5">
+      <div className="flex flex-row justify-between px-6 py-4 mb-2">
         <h3 className="text-3xl font-bold ">Usuarios</h3>
         <button
           onClick={() => setModalAbierto(true)}

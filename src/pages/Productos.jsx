@@ -4,7 +4,6 @@ import Table from '../components/Table';
 import FormularioProducto from '../components/Formulario_Producto';
 
 export default function Productos() {
-    // Dentro de tu componente principal:
     const [modalAbierto, setModalAbierto] = useState(false);
     const columnasUsuarios = [
         {
@@ -32,7 +31,7 @@ export default function Productos() {
     ];
     return (
         <div>
-            <div className="flex flex-row justify-between mb-5">
+            <div className="flex flex-row justify-between px-6 py-4 mb-2 py">
                  <h3 className="text-3xl font-bold ">Productos</h3>
             <button
                 onClick={() => setModalAbierto(true)}
