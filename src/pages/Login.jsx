@@ -1,26 +1,40 @@
 import { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { FaLock } from "react-icons/fa";
+import { sendOtp, verifyOtp, getMe } from "../services/authService"
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [step, setStep] = useState("email");
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const { login } = useAuth();
+   const navigate = useNavigate();
 
   const handleSendCode = async (e) => {
     e.preventDefault();
-
-    // Aquí llamarás a tu API
-
-    setStep("code");
+    try {
+      const mensaje = await sendOtp(email);
+      console.log(mensaje); 
+      setStep("code");
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   const handleVerifyCode = async (e) => {
     e.preventDefault();
+    try {
+      const token = await verifyOtp(email, code);
+      localStorage.setItem("token", token);
+      const datosUsuario = await getMe(); 
+      login(token,datosUsuario);
+      navigate("/dashboard");
 
-    // Aquí llamarás a tu API
-
-    console.log({ email, code });
+    } catch (error) {
+      console.error(error)
+    }
   };
 
   return (
@@ -28,10 +42,10 @@ export default function Login() {
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-slate-800">Acceder</h1>
-          <p className="mt-2 text-slate-500">{step === "email"? "Ingresa tu correo para recibir un código.": "Revisa tu correo e ingresa el código recibido."}</p>
+          <p className="mt-2 text-slate-500">{step === "email" ? "Ingresa tu correo para recibir un código." : "Revisa tu correo e ingresa el código recibido."}</p>
         </div>
         {step === "email" ? (
-            <form onSubmit={handleSendCode} className="space-y-5">
+          <form onSubmit={handleSendCode} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-2">Correo electrónico</label>
               <div className="relative"><MdEmail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xl" />
@@ -61,8 +75,8 @@ export default function Login() {
               Verificar e ingresar
             </button>
             <button type="button" onClick={() => setStep("email")} className="text-slate-600 hover:text-slate-800">
-                Cambiar correo
-              </button>
+              Cambiar correo
+            </button>
           </form>
         )}
       </div>

@@ -25,7 +25,7 @@ export async function verifyOtp(email, code) {
 
 export async function getMe() {
     try {
-        const response = await api.get("/auth//me", {
+        const response = await api.get("/auth/me", {
         });
         return response.data
     } catch (error) {
