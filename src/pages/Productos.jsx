@@ -49,7 +49,7 @@ export default function Productos() {
                 onClose={() => setModalAbierto(false)}
                 title="Registrar Producto"
             >
-                <FormularioProducto/>
+                <FormularioProducto onClose={() => setModalAbierto(false)}/>
             </Modal>
         </div>
     );
