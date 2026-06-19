@@ -15,7 +15,7 @@ export default function Modal({ isOpen, onClose, title, children }) {
             &times;
           </button>
         </div>
-        <div className="mt-4">
+        <div className="mt-1">
           {children}
         </div>
 
