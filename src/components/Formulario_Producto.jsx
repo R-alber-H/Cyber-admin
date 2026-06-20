@@ -3,10 +3,9 @@ import { MdEmail } from "react-icons/md";
 import { getBrands } from "../services/brand"
 import { getCategory } from "../services/category";
 import { getSuppliers } from "../services/suppliers";
-import { craeteProduct } from "../services/productService"
 import Select from 'react-select'
 
-export default function FormularioProducto({ onClose }) {
+export default function FormularioProducto({ onClose , onCreate }) {
   const valor = ""
   const [brands, setBrands] = useState([])
   const [categories, setCategories] = useState([])
@@ -43,7 +42,7 @@ export default function FormularioProducto({ onClose }) {
     try {
        const validacion = true
       setEnviar(validacion)
-      const response = await craeteProduct(formData)
+      const response = await onCreate(formData)
       onClose()
       // return response
     } catch (error) {

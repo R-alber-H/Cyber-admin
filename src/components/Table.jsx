@@ -4,7 +4,7 @@ export default function Table({ columns, data }) {
     <div className="overflow-x-auto rounded-xl border border-gray-100 shadow-sm">
       <table className="w-full text-sm text-left text-gray-600 bg-white">
         
-        <thead className="bg-gray-50/75 text-gray-500 text-xs uppercase tracking-wider border-b border-gray-100">
+        <thead className="bg-gray-50/75 text-gray-900 text-xs uppercase tracking-wider border-b border-gray-100">
           <tr>
             {columns.map((column, index) => (
               <th 
