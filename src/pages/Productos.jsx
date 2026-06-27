@@ -2,14 +2,27 @@ import { useState } from 'react';
 import Modal from '../components/Modal';
 import Table from '../components/Table';
 import FormularioProducto from '../components/Formulario_Producto';
+import FormularioEditarProducto from '../components/FormularioEditarProducto';
 import { crearColumnasProductos } from "../columns/columnsproducts"
 import { useProduct } from '../hooks/useProduct';
 
 
 export default function Productos() {
     const [modalAbierto, setModalAbierto] = useState(false);
-    const { productos, cargando, createProduct } = useProduct();
-    const columnasProductos = crearColumnasProductos();
+    const { productos, cargando, createProduct, updateProduct } = useProduct();
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+
+    const handleEditar = (producto) =>{
+        setProductoSeleccionado(producto);
+        setModalAbierto(true);
+    }
+
+    const columnasProductos = crearColumnasProductos(handleEditar);
+
+    const closed =() => {
+        setModalAbierto(false);
+        setProductoSeleccionado(null);
+    }
 
     return (
         <div>
@@ -26,12 +39,14 @@ export default function Productos() {
             <div className="bg-white rounded-xl shadow overflow-hidden">
                 <Table columns={columnasProductos} data={productos} />
             </div>
+            
             <Modal
                 isOpen={modalAbierto}
-                onClose={() => setModalAbierto(false)}
-                title="Registrar Producto"
+                onClose={closed}
+                title={productoSeleccionado? "Editar Producto" : "Registrar Producto"}   
             >
-                <FormularioProducto onClose={() => setModalAbierto(false)} onCreate={createProduct} />
+                {productoSeleccionado? <FormularioEditarProducto onClose={closed} onUpdate ={updateProduct} producto = {productoSeleccionado} ></FormularioEditarProducto> : 
+                <FormularioProducto onClose={() => setModalAbierto(false)}  onCreate={createProduct}></FormularioProducto>}
             </Modal>
         </div>
     );

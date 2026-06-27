@@ -1,5 +1,5 @@
-
-export function crearColumnasProductos(){
+import { GrEdit } from "react-icons/gr";
+export function crearColumnasProductos(onEditar){
     const columnasProductos = [
         {
             header: "ID",
@@ -45,6 +45,10 @@ export function crearColumnasProductos(){
                   return <span className="text-gray-500">{nombres}</span>;
                     }
         },
+        {
+            header :"Accion",
+            render : (producto) => <button  onClick={() => onEditar(producto)}><GrEdit color="#E0F40B" size={20} /></button>
+        }
     ];
     return columnasProductos;
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getProduct, craeteProduct } from "../services/productService";
+import { get, craete, toggleStatus, update } from "../services/productService";
 
 
 export function useProduct(){
@@ -9,10 +9,10 @@ export function useProduct(){
     const cargarProductos = async () => {
     setCargando(true)
     try {
-      const data = await getProduct()
+      const data = await get()
       setProductos(Array.isArray(data) ? data : []);
     } catch (error) {
-      console.error("Error al cargar productos:", error);
+      console.error("Error al obtener productos:", error);
        throw error;
     }finally{
       setCargando(false)
@@ -25,10 +25,30 @@ export function useProduct(){
 
   const createProduct = async (data) =>{
     try {
-      const dataResponse = await craeteProduct(data) ;
+      const dataResponse = await craete(data) ;
       setProductos(prev => [...prev, dataResponse]);
     } catch (error) {
       console.error("Error al crear nuevo producto:", error);
+       throw error;
+    }
+  }
+
+  const updateProduct = async (id, data) =>{
+    try {
+      const dataResponse = await update(id,data);
+      setProductos(prev => prev.map(p => p.id === id? dataResponse :p));
+    } catch (error) {
+      console.error("Error al actualizar datos del producto:", error);
+       throw error;
+    }
+  }
+
+  const deleteProduct = async (id) => {
+    try {
+      const dataResponse = await toggleStatus(id);
+      setProductos(prev => prev.map(p => p.id === id? dataResponse :p));
+    } catch (error) {
+      console.error("Error al actualizar estado del producto:", error);
        throw error;
     }
   }
@@ -38,5 +58,7 @@ export function useProduct(){
   cargando,
   cargarProductos,
   createProduct,
+  updateProduct,
+  deleteProduct,
 };
 }

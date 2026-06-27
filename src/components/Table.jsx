@@ -33,7 +33,7 @@ export default function Table({ columns, data }) {
                 {columns.map((column, colIndex) => (
                   <td key={colIndex} className="p-4">
                     {column.render 
-                      ? column.render(row[column.accessor], row) 
+                      ? column.render(column.accessor ? row[column.accessor] : row, row) 
                       : row[column.accessor]}
                   </td>
                 ))}
