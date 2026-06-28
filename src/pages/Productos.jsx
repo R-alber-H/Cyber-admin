@@ -2,54 +2,52 @@ import { useState } from 'react';
 import Modal from '../components/Modal';
 import Table from '../components/Table';
 import FormularioProducto from '../components/Formulario_Producto';
+import FormularioEditarProducto from '../components/FormularioEditarProducto';
+import { crearColumnasProductos } from "../columns/columnsproducts"
+import { useProduct } from '../hooks/useProduct';
+import { HiPlus } from 'react-icons/hi';
 
 export default function Productos() {
     const [modalAbierto, setModalAbierto] = useState(false);
-    const columnasUsuarios = [
-        {
-            header: "ID",
-            accessor: "id",
-            className: "w-16",
-            render: (value) => <span className="font-mono text-gray-400">{value}</span>
-        },
-        {
-            header: "Nombre",
-            accessor: "nombre",
-            render: (value) => <span className="font-medium text-gray-900">{value}</span>
-        },
-        {
-            header: "Correo",
-            accessor: "correo",
-            render: (value) => <span className="text-gray-500">{value}</span>
-        },
-    ];
+    const { productos, cargando, createProduct, updateProduct, deleteProduct } = useProduct();
+    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
-    const listaUsuarios = [
-        { id: 1, nombre: "Juan Pérez", correo: "juan@mail.com" },
-        { id: 2, nombre: "María Gomez", correo: "maria@mail.com" },
-        { id: 3, nombre: "Carlos Días", correo: "carlos@mail.com" },
-    ];
+    const handleEditar = (producto) => {
+        setProductoSeleccionado(producto);
+        setModalAbierto(true);
+    }
+
+    const columnasProductos = crearColumnasProductos(handleEditar, deleteProduct);
+
+    const closed = () => {
+        setModalAbierto(false);
+        setProductoSeleccionado(null);
+    }
+
     return (
         <div>
             <div className="flex flex-row justify-between px-6 py-4 mb-2 py">
-                 <h3 className="text-3xl font-bold ">Productos</h3>
-            <button
-                onClick={() => setModalAbierto(true)}
-                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-            >
-                Nuevo producto
-            </button>
+                <h3 className="text-3xl font-bold ">Productos</h3>
+                <button
+                    onClick={() => setModalAbierto(true)}
+                    className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl shadow-sm transition-all duration-200 "
+                >
+                    <HiPlus size={18} />
+                    Nuevo producto
+                </button>
             </div>
-           
+
             <div className="bg-white rounded-xl shadow overflow-hidden">
-                <Table columns={columnasUsuarios} data={listaUsuarios} />
+                <Table columns={columnasProductos} data={productos} />
             </div>
+
             <Modal
                 isOpen={modalAbierto}
-                onClose={() => setModalAbierto(false)}
-                title="Registrar Producto"
+                onClose={closed}
+                title={productoSeleccionado ? "Editar Producto" : "Registrar Producto"}
             >
-                <FormularioProducto/>
+                {productoSeleccionado ? <FormularioEditarProducto onClose={closed} onUpdate={updateProduct} producto={productoSeleccionado} ></FormularioEditarProducto> :
+                    <FormularioProducto onClose={() => setModalAbierto(false)} onCreate={createProduct}></FormularioProducto>}
             </Modal>
         </div>
     );
