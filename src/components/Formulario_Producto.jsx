@@ -6,7 +6,6 @@ import { getSuppliers } from "../services/suppliers";
 import Select from 'react-select'
 
 export default function FormularioProducto({ onClose , onCreate }) {
-  const valor = ""
   const [brands, setBrands] = useState([])
   const [categories, setCategories] = useState([])
   const [suppliers, setSuppliers] = useState([])

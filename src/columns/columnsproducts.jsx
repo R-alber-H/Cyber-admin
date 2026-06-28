@@ -1,5 +1,8 @@
+
 import { GrEdit } from "react-icons/gr";
-export function crearColumnasProductos(onEditar){
+import { ToggleSwitch } from "../components/ToggleSwitch";
+
+export function crearColumnasProductos(onEditar, onToggle) {
     const columnasProductos = [
         {
             header: "ID",
@@ -41,13 +44,17 @@ export function crearColumnasProductos(onEditar){
             header: "Categorias",
             accessor: "product_categories",
             render: (value) => {
-                  const nombres = value.map((v) => v.category.name).join(", ");
-                  return <span className="text-gray-500">{nombres}</span>;
-                    }
+                const nombres = value.map((v) => v.category.name).join(", ");
+                return <span className="text-gray-500 bg">{nombres}</span>;
+            }
         },
         {
-            header :"Accion",
-            render : (producto) => <button  onClick={() => onEditar(producto)}><GrEdit color="#E0F40B" size={20} /></button>
+            header: "Accion",
+            render: (producto) => (<div className="w-24 flex gap-4 items-center">
+                <button onClick={() => onEditar(producto)}><GrEdit color="#2563eb" size={20} /></button>
+                <ToggleSwitch estado={producto.active } onToggleState={() => onToggle(producto.id)} />
+            </div>
+            )
         }
     ];
     return columnasProductos;
