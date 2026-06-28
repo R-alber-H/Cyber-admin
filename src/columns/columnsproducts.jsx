@@ -51,7 +51,7 @@ export function crearColumnasProductos(onEditar, onToggle) {
         {
             header: "Accion",
             render: (producto) => (<div className="w-24 flex gap-4 items-center">
-                <button onClick={() => onEditar(producto)}><GrEdit color="#2563eb" size={20} /></button>
+                <button disabled={!producto.active} onClick={() => onEditar(producto)}><GrEdit color={producto.active ? "#2563eb" : "#9ca3af"} size={20} /></button>
                 <ToggleSwitch estado={producto.active } onToggleState={() => onToggle(producto.id)} />
             </div>
             )
