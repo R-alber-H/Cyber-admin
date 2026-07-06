@@ -111,6 +111,7 @@ export default function FormularioProducto({ onClose , onCreate }) {
         <Select
           isMulti
           options={categories.map(c => ({ value: c.id, label: c.name }))}
+          placeholder="Selecciona categoria"
           onChange={(seleccionadas) => {
             const ids = seleccionadas.map((s) => s.value);
             setFormData({
