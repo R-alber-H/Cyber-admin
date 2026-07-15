@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useProduct } from '../hooks/useProduct';
 import { TiDelete } from "react-icons/ti";
+import { getPaymentMethod } from "../services/payment_method_service";
 
 export default function NuevoPedido() {
 
@@ -17,6 +18,15 @@ export default function NuevoPedido() {
   const [delivery, setDelivery] = useState(false);
   const { productos: productosContexto } = useProduct();
   const productosDisponibles = productosContexto || [];
+  const [metodosPago,setMetodosPago] = useState([]);
+
+  useEffect(() =>{
+    const fetchData = async() =>{
+      const metodos = await getPaymentMethod()
+      setMetodosPago(metodos)
+    };
+  fetchData();
+  }, []);
 
   const agregarFila = () => {
     setProductos([...productos, {id: crypto.randomUUID(), producto: "", cantidad: "0", precio: 0, idProducto: null }]);
@@ -39,9 +49,9 @@ export default function NuevoPedido() {
       <div className="bg-white rounded-xl shadow overflow-hidden p-6">
 
         <div className="flex items-center gap-4">
-          <p className="whitespace-nowrap font-medium text-slate-700">
-            Ingrese DNI del Cliente:
-          </p>
+          <label htmlFor="cliente_dni" className="text-slate-700 font-medium whitespace-nowrap">
+    Ingrese el DNI del Cliente:
+  </label>
           <input type="text" required placeholder="Ejm: 12345678"
             className="w-48 border border-slate-300 rounded-lg pl-5 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -122,7 +132,7 @@ export default function NuevoPedido() {
         </div>
 
         <div className="flex justify-between mb-2 mt-6">
-          <button type="button" className="px-4 py-2 text-xs font-normal text-gray-600 border border-gray-600 rounded hover:bg-gray-600 hover:text-white transition-colors duration-150" onClick={agregarFila}>Agregar fila</button>
+          <button type="button" className="ml-2 px-4 py-2 text-xs font-normal text-gray-600 border border-gray-600 rounded hover:bg-gray-600 hover:text-white transition-colors duration-150" onClick={agregarFila}>Agregar fila</button>
           <h5 className="text-right text-lg font-semibold">Total: S/ </h5>
         </div>
 
@@ -146,6 +156,27 @@ export default function NuevoPedido() {
             <p className="whitespace-nowrap font-medium text-blue-700">El recojo se realizará en la tienda</p>
           )}
         </div>
+
+        <div className="flex items-center gap-4 mb-3">
+  <label htmlFor="method_id" className="text-slate-700 ml-4 font-medium whitespace-nowrap">
+    Método de Pago:
+  </label>
+  <div className="relative">
+    <select
+      id="method_id"
+      name="method_id"
+      className="w-72 border border-slate-300 rounded-lg pl-5 pr-10 py-2 bg-white text-sm text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none cursor-pointer"
+    >
+      <option value="">Seleccione metodo pago</option>
+      {metodosPago.map((metodo) => (
+        <option key={metodo.id} value={metodo.id}>
+          {metodo.name}
+        </option>
+      ))}
+    </select>
+  </div>
+</div>
+
         <div className="flex justify-end p-4">
           <button type="button"
             className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
