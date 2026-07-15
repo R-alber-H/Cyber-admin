@@ -9,3 +9,13 @@ export async function get() {
         throw error;
     }
 }
+
+export async function create(data) {
+    try {
+        const response = await api.post("/orders", data)
+        return response.data
+    } catch (error) {
+        console.error("Error:", error.response?.data || error.message);
+        throw error;
+    }
+}

@@ -6,6 +6,7 @@ import Usuarios from "../pages/Usuarios";
 import Productos from "../pages/Productos";
 import RutaPrivada from "./rutaPrivada";
 import Pedidos from "../pages/Pedidos";
+import NuevoPedido from "../pages/NuevoPedido";
 
 export default function AppRouters() {
     return (
@@ -18,6 +19,7 @@ export default function AppRouters() {
                     <Route path="/usuarios" element={<Usuarios />} />
                     <Route path="/productos" element={<Productos />} />
                     <Route path="/pedidos" element={<Pedidos />} />
+                    <Route path="/nuevo_pedido" element={<NuevoPedido />} />
                 </Route>
             </Route>
         </Routes>
