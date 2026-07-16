@@ -1,8 +1,6 @@
+import { TbListDetails } from "react-icons/tb";
 
-import { GrEdit } from "react-icons/gr";
-import { ToggleSwitch } from "../components/ToggleSwitch";
-
-export function crearColumnasPedidos() {
+export function crearColumnasPedidos(onVerPedido) {
     const columnasPedidos = [
         {
             header: "ID",
@@ -44,14 +42,12 @@ export function crearColumnasPedidos() {
                 return <span className="text-gray-500 bg">{nombres}</span>;
             }
         },
-        // {
-        //     header: "Accion",
-        //     render: (producto) => (<div className="w-24 flex gap-4 items-center">
-        //         <button disabled={!producto.active} onClick={() => onEditar(producto)}><GrEdit color={producto.active ? "#2563eb" : "#9ca3af"} size={20} /></button>
-        //         <ToggleSwitch estado={producto.active } onToggleState={() => onToggle(producto.id)} />
-        //     </div>
-        //     )
-        // }
+        {
+            header: "Detalles",
+            render: (pedido) => (
+                <button  onClick={() => onVerPedido(pedido)}><TbListDetails color="#3b82f6" size={20} /></button>
+            )
+        }
     ];
     return columnasPedidos;
 }
