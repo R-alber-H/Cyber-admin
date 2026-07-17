@@ -5,22 +5,41 @@ import { HiPlus } from 'react-icons/hi';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import ModalDetalle from "../components/Modal_Detalle_Pedido";
+import ModalCambiarEstado from "../components/Modal_Cambiar_estado";
 
 export default function Pedidos() {
-    const { pedidos, cargando } = usePedidos();
+    const { pedidos, cargando,cambiarEstado } = usePedidos();
     const [pedidoSeleccionado, setPedidoSeleccionado] = useState(null);
+    const [pedidoCambioEstado, setPedidoCambioEstado] = useState(null);
 
     const onVerPedido = (pedido) =>{
         setPedidoSeleccionado(pedido);
+    };
+
+    const onCambiarEstado = (pedido) =>{
+        setPedidoCambioEstado(pedido);
     }
 
-    const columnasPedidos = crearColumnasPedidos(onVerPedido);
+    const columnasPedidos = crearColumnasPedidos(onVerPedido, onCambiarEstado);
     const navigate = useNavigate();
 
-    
     const closed = () => {
         setPedidoSeleccionado(null);
-    }
+    };
+
+    const closedEstado = () => {
+        setPedidoCambioEstado(null);
+    };
+
+    const onConfirmar = async (pedidoId, nuevoEstado) => {
+        try {
+            await cambiarEstado(pedidoId, nuevoEstado);
+            console.log("Estado cambiado con éxito a:", nuevoEstado);
+        } catch (error) {
+            console.error("Error al cambiar el estado:", error);
+        }
+    };
+
     return (
         <div>
             <div className="flex flex-row justify-between px-6 py-4 mb-2 py">
@@ -37,6 +56,7 @@ export default function Pedidos() {
                 <Table columns={columnasPedidos} data={pedidos} />
             </div>
             {pedidoSeleccionado && <ModalDetalle pedido={pedidoSeleccionado} onClose={ closed}/>}
+            {pedidoCambioEstado && <ModalCambiarEstado pedido={pedidoCambioEstado} onClose={closedEstado} onConfirmar={onConfirmar}/>}
 
         </div>
     )

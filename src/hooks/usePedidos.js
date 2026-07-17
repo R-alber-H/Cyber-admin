@@ -1,4 +1,4 @@
-import { get,create } from "../services/pedidosService";
+import { get, create, changeStatus } from "../services/pedidosService";
 import { useEffect, useState } from "react";
 
 export default function usePedidos() {
@@ -30,12 +30,26 @@ export default function usePedidos() {
       console.error("Error al crear nuevo pedido:", error);
       throw error;
     }
-  }
+  };
 
+  const cambiarEstado = async (id, data) => {
+    try {
+      const dataResponse = await changeStatus(id, data);
+      setPedidos(prev => prev.map(p =>
+        p.id === id
+          ? { ...p, status_history: [...p.status_history, dataResponse] }
+          : p
+      ));
+    } catch (error) {
+      console.error("Error al cambiar estado:", error);
+      throw error
+    }
+  }
 
   return {
     pedidos,
     cargando,
     crearPedido,
+    cambiarEstado,
   }
 }
