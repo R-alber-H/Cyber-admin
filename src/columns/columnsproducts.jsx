@@ -1,6 +1,7 @@
 
 import { GrEdit } from "react-icons/gr";
 import { ToggleSwitch } from "../components/ToggleSwitch";
+import { getNivelStock,ESTILOS_NIVEL } from "../utils/inventario_util";
 
 export function crearColumnasProductos(onEditar, onToggle) {
     const columnasProductos = [
@@ -21,11 +22,6 @@ export function crearColumnasProductos(onEditar, onToggle) {
             render: (value) => <span className="text-gray-500">{value}</span>
         },
         {
-            header: "Descripcion",
-            accessor: "description",
-            render: (value) => <span className="text-gray-500">{value}</span>
-        },
-        {
             header: "Marca",
             accessor: "brand",
             render: (value) => <span className="text-gray-500">{value.name}</span>
@@ -36,11 +32,6 @@ export function crearColumnasProductos(onEditar, onToggle) {
             render: (value) => <span className="text-gray-500">{value.name}</span>
         },
         {
-            header: "Stock",
-            accessor: "inventory",
-            render: (value) => <span className="text-gray-500">{value.stock}</span>
-        },
-        {
             header: "Categorias",
             accessor: "product_categories",
             render: (value) => {
@@ -48,6 +39,21 @@ export function crearColumnasProductos(onEditar, onToggle) {
                 return <span className="text-gray-500 bg">{nombres}</span>;
             }
         },
+        {
+            header: "Stock",
+            accessor: "inventory",
+            render: (value) => <span className="text-gray-500">{value.stock}</span>
+        },
+        {
+            header: "Nivel Stock",
+            render: (producto) =>{
+                const nivel = getNivelStock(producto.inventory.stock)
+                const clasesColor = ESTILOS_NIVEL[nivel] || ESTILOS_NIVEL['default'];
+                return(
+                    <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${clasesColor}`}>{nivel}</span>
+                )
+            } 
+        }, 
         {
             header: "Accion",
             render: (producto) => (<div className="w-24 flex gap-4 items-center">

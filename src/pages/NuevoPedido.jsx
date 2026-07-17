@@ -3,6 +3,7 @@ import { useProduct } from '../hooks/useProduct';
 import { TiDelete } from "react-icons/ti";
 import { getPaymentMethod } from "../services/payment_method_service";
 import {create } from "../services/pedidosService"
+import { useNavigate } from "react-router-dom";
 
 export default function NuevoPedido() {
 
@@ -25,6 +26,7 @@ export default function NuevoPedido() {
   const [metodosPago, setMetodosPago] = useState([]);
   const [direccion, setDireccion] = useState("");
   const [metodoPago, setMetodoPago] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,6 +111,7 @@ export default function NuevoPedido() {
 
     await create(pedido)
     console.log("Pedido registrado")
+    navigate("/pedidos")
   }
 
   return (
