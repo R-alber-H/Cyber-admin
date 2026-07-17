@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaHome, FaUsers, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaHome, FaUsers, FaCog, FaSignOutAlt,FaClipboardList  } from "react-icons/fa";
 import { FaCubes } from "react-icons/fa6";
 import avatar from "../../assets/avatar.png"
 
@@ -81,19 +81,19 @@ export default function Sidebar() {
             </li>
             <li>
               <NavLink
-                to="/configuracion"
+                to="/pedidos"
                 className={({ isActive }) =>
                   `${baseLinkClass} ${isActive
-                    ? "bg-linear-to-r from-orange-500/10 to-transparent text-orange-500 font-bold"
+                    ? "bg-linear-to-r from-orange-500/10 to-transparent text-white font-bold"
                     : "text-zinc-400 hover:text-white hover:bg-zinc-900/50 hover:font-bold"
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
-                    <FaCog className={`text-lg transition-transform group-hover:scale-110 ${isActive ? "text-orange-500" : "text-zinc-500 group-hover:text-white"}`} />
-                    <span>Configuración</span>
-                    {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-orange-500 shadow-glow" />}
+                    <FaClipboardList className={`text-lg transition-transform group-hover:scale-110 ${isActive ? "text-white" : "text-zinc-500 group-hover:text-white"}`} />
+                    <span>Pedidos</span>
+                    {isActive && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-white shadow-glow" />}
                   </>
                 )}
               </NavLink>
