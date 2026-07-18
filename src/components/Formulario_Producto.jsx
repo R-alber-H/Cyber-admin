@@ -142,7 +142,7 @@ export default function FormularioProducto({ onClose , onCreate }) {
       </div>
 
       <button type="submit" disabled={enviar} className="mt-4 w-full text-white px-4 py-3 rounded-lg bg-linear-to-r from-[#af6ab3] to-[#4968da] font-medium hover:opacity-90 transition-opacity cursor-pointer">
-        Aceptar
+        Registrar
       </button>
     </form>
   );

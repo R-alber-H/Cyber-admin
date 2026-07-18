@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 import Modal from '../components/Modal';
 import Table from '../components/Table';
 import FormularioProducto from '../components/Formulario_Producto';
@@ -6,23 +6,39 @@ import FormularioEditarProducto from '../components/FormularioEditarProducto';
 import { crearColumnasProductos } from "../columns/columnsproducts"
 import { useProduct } from '../hooks/useProduct';
 import { HiPlus } from 'react-icons/hi';
+import ModalImcrementarStock from '../components/ModalIncrementarStock';
 
 export default function Productos() {
     const [modalAbierto, setModalAbierto] = useState(false);
-    const { productos, cargando, createProduct, updateProduct, deleteProduct } = useProduct();
-    const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+    const { productos, cargando, createProduct, updateProduct, deleteProduct,incrementarStock } = useProduct();
+    const [ productoSeleccionado, setProductoSeleccionado]  = useState(null);
+    const [ productoStock, setProductoStock ] = useState(null);
 
     const handleEditar = (producto) => {
         setProductoSeleccionado(producto);
         setModalAbierto(true);
     }
 
-    const columnasProductos = crearColumnasProductos(handleEditar, deleteProduct);
+    const onIncrementar = (producto) => {
+        setProductoStock(producto);
+    }
+
+    const columnasProductos = crearColumnasProductos(handleEditar, deleteProduct, onIncrementar);
 
     const closed = () => {
         setModalAbierto(false);
         setProductoSeleccionado(null);
     }
+    const closedStock = () => setProductoStock(null)
+
+    const onConfirmar = async (productoId, cantidad) => {
+        try {
+            await incrementarStock(productoId, cantidad);
+            console.log("stock cambiado con éxito" );
+        } catch (error) {
+            console.error("Error al cambiar stock");
+        }
+    };
 
     return (
         <div>
@@ -49,6 +65,14 @@ export default function Productos() {
                 {productoSeleccionado ? <FormularioEditarProducto onClose={closed} onUpdate={updateProduct} producto={productoSeleccionado} ></FormularioEditarProducto> :
                     <FormularioProducto onClose={() => setModalAbierto(false)} onCreate={createProduct}></FormularioProducto>}
             </Modal>
+            {productoStock && <ModalImcrementarStock
+            onClose={closedStock}
+            onConfirmar={onConfirmar}
+            producto={productoStock}
+            >
+                
+            </ModalImcrementarStock>
+            }
         </div>
     );
 }

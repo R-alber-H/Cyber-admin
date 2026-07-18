@@ -52,7 +52,7 @@ export default function ModalCambiarEstado({ pedido, onClose, onConfirmar }) {
                 <div className="flex justify-end gap-3 px-5 py-3 bg-gray-50 border-t border-gray-100">
                     <button
                         onClick={onClose}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-md transition-colors duration-200 focus:outline-none"
+                        className="px-4 py-2 text-sm font-medium text-red-700 bg-red-50 hover:bg-red-100 rounded-md transition-colors duration-200 focus:outline-none" 
                     >
                         Cancelar
                     </button>

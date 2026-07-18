@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { get, craete, toggleStatus, update } from "../services/productService";
+import { incrementar } from "../services/inventory";
 
 
 export function useProduct(){
@@ -53,6 +54,16 @@ export function useProduct(){
     }
   }
 
+  const incrementarStock = async (id, quantity) => {
+  try {
+    const response = await incrementar(id, quantity);
+    setProductos(prev => prev.map(p => p.id === id ? { ...p, inventory: response } : p));
+  } catch (error) {
+    console.error("Error al cambiar stock:", error);
+    throw error;
+  }
+};
+
   return {
   productos,
   cargando,
@@ -60,5 +71,6 @@ export function useProduct(){
   createProduct,
   updateProduct,
   deleteProduct,
+  incrementarStock,
 };
 }
